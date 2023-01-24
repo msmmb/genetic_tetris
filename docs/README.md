@@ -4,8 +4,6 @@ Tetris genetic algorithm written in C++ based on [this](https://codemyroad.wordp
 
 After 15 minutes of training, the AI was able to clear 16.000+ lines.
 
-Youtube demo [here](https://youtu.be/iytFLOYbyec).
-
 ## Train de AI
 
 If an agent better than the saved one gets generated during training, parameters are automatically updated.
