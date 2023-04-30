@@ -79,7 +79,7 @@ int main() {
         
         if (grid.clearedLines > record) {
             newRecord = true;
-            ofstream file("../data/record.txt");
+            ofstream file("data/record.txt");
             if (file.is_open()) {
                 record = grid.clearedLines;
                 file << record;
