@@ -86,7 +86,7 @@ int main() {
                 file.close();
             }
         }
-            //this_thread::sleep_for(chrono::milliseconds(20));
+            this_thread::sleep_for(chrono::milliseconds(20));
     }
     return 0;
 }
