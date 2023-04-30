@@ -2,7 +2,10 @@
 #include <fstream>
 #include <typeinfo>
 #include <raylib.h>
-#include "utils/brain.cpp"
+#include "utils/piece.hpp"
+#include "utils/grid.hpp"
+#include "utils/neuralNetwork.hpp"
+#include "utils/brain.hpp"
 
 using namespace std;
 
@@ -11,8 +14,8 @@ int main() {
     char *line;
     size_t len = 0;
     int l = 1;
-    NeuralNetwork bestParams("../data/bestParams.txt");
-    FILE *file = fopen("../data/record.txt", "r");
+    NeuralNetwork bestParams("data/bestParams.txt");
+    FILE *file = fopen("data/record.txt", "r");
     int record;
 
     if (getline(&line, &len, file) != -1) record = atoi(line);

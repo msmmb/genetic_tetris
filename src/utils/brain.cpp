@@ -1,24 +1,9 @@
-
 #include <cmath>
+#include <string>
 #include <cstdlib>
 #include <bits/stdc++.h>
-#include "neuralNetwork.cpp"
+#include "brain.hpp"
 
-class Brain {
-    public:
-        NeuralNetwork params;
-        int score;
-
-        Brain();
-        Brain(NeuralNetwork params);
-        string getBestMove(Grid grid);
-		Brain crossover(Brain partner);
-        vector<int> getColumnHeights(vector<vector<int>> grid);
-        int getCompletedLines(vector<vector<int>> grid);
-        int getAggregateHeight(vector<vector<int>> grid);
-        int getBumpiness(vector<vector<int>> grid);
-        int getHoles(vector<vector<int>> grid);
-};
 
 Brain::Brain() {
     score = 0;
@@ -128,7 +113,11 @@ vector<int> Brain::getColumnHeights(vector<vector<int>> grid) {
 
 int Brain::getCompletedLines(vector<vector<int>> grid) {
     int completedLines = 0;
-    for (int l=0; l<24; l++) if (!contains(0,grid[l])) completedLines++;
+    for (int l=0; l<24; l++) {
+        if (find(grid[l].begin(), grid[l].end(), 0) == grid[l].end()) {
+            completedLines++;
+        }
+    }
     return completedLines;
 }
 

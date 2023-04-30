@@ -1,31 +1,13 @@
-#include "piece.cpp"
+#include <algorithm>
+#include "grid.hpp"
 
-class Grid {
-    public:
-        Piece piece;
-        bool gameOver;
-        float clearedLines;
-        vector<vector<int>> matrix;
-        int score;
-
-        Grid(); 
-        void clearLine(); 
-        void rotatePiece();
-        void movePiece(int dir, int ind);
-        void gravity(int val);
-        void fixPiece();
-        void update();
-};
 
 bool inRange(int n, int a, int b) {
     return (a <= n && n < b);
 }
 
 bool contains(int n, vector<int> mat) {
-    for (int i=0; i<mat.size(); i++) {
-        if (mat[i] == n) return true;
-    }
-    return false;
+    return (find(mat.begin(), mat.end(), n) != mat.end());
 }
 
 Grid::Grid() {

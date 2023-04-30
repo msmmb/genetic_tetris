@@ -1,23 +1,15 @@
-#include "population.cpp"
+#include <string>
+#include <iostream>
+#include "geneticAlgorithm.hpp"
 
-class GeneticAlgorithm {
-    
-    public:
-        int gen;
-        int bestRecordedFitness;
-        Population population;
-        
-        GeneticAlgorithm();
-        void runGeneticAlgorithm();
-        Brain runGames(Brain brain);
-};
+# define N_GAMES 3
 
 GeneticAlgorithm::GeneticAlgorithm() {
     gen = 1;
     int l = 0;
     char *line;
     size_t len = 0;
-    FILE *file1 = fopen("../data/bestParams.txt", "r");
+    FILE *file1 = fopen("data/bestParams.txt", "r");
     while (getline(&line, &len, file1) != -1) {
         if (l++ == 4*3+3+3+1) bestRecordedFitness = atoi(line); 
     }
@@ -36,7 +28,7 @@ void GeneticAlgorithm::runGeneticAlgorithm() {
             if (bestFitness < population.agents[b].score) {
                 bestFitness = population.agents[b].score; 
             }
-            cout << "current -> " << population.agents[b].score << "  best -> " << bestRecordedFitness << endl << endl;
+            cout << "current -> " << population.agents[b].score << "  best -> " << bestFitness << endl << endl;
         }
         cout << endl << endl << "GENERATION " << gen++ << endl << endl; 
         population.generateNewPopulation();
@@ -44,10 +36,9 @@ void GeneticAlgorithm::runGeneticAlgorithm() {
 }
 
 Brain GeneticAlgorithm::runGames(Brain brain) {
-    int nGames = 7;
     int fitness = 0;
 
-    for (int g=0; g<nGames; g++) {
+    for (int g=0; g<N_GAMES; g++) {
         Grid grid;
         int pieces = 0;
         while (!grid.gameOver && pieces++ < 50000) {
@@ -76,11 +67,11 @@ Brain GeneticAlgorithm::runGames(Brain brain) {
         fitness += grid.score;
     }
 
-    brain.score = fitness/nGames;
+    brain.score = fitness/N_GAMES;
 
     if (brain.score > bestRecordedFitness) {
         bestRecordedFitness = brain.score;
-		brain.params.saveParams("../data/bestParams.txt", brain.score);
+		brain.params.saveParams("data/bestParams.txt", brain.score);
     }
     
     return brain;

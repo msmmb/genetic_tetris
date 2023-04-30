@@ -1,8 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <chrono>
+#include <string>
 #include <thread>
-#include "utils/brain.cpp"
+#include "utils/piece.hpp"
+#include "utils/grid.hpp"
+#include "utils/neuralNetwork.hpp"
+#include "utils/brain.hpp"
 
 using namespace std;
 
@@ -11,8 +15,8 @@ int main() {
     char *line;
     size_t len = 0;
     int l = 1;
-    NeuralNetwork bestParams("../data/bestParams.txt");
-    FILE *file = fopen("../data/record.txt", "r");
+    NeuralNetwork bestParams("data/bestParams.txt");
+    FILE *file = fopen("data/record.txt", "r");
     int record;
     bool newRecord = false;
 
@@ -82,7 +86,7 @@ int main() {
                 file.close();
             }
         }
-            this_thread::sleep_for(chrono::milliseconds(20));
+            //this_thread::sleep_for(chrono::milliseconds(20));
     }
     return 0;
 }

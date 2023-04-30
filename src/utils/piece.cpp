@@ -1,26 +1,8 @@
-#include <random>
-#include <vector>
-#include <string>
+#include "grid.hpp"
 
-using namespace std;
+random_device rd1;
+uniform_int_distribution<int> d1(0,7);
 
-random_device rd;
-uniform_int_distribution<int> d(0,10000000);
-
-class Piece {
-    public:
-        vector<int> pieceBag;
-        int n, m, next;
-        string shape;
-        int position[2];
-        bool fixed;
-        vector<vector<string>> shapeList;
-        vector<int> shapeRotations;
-
-        Piece(); 
-        void newShape();
-        void newNext();
-};
 
 vector<int> removeElement(vector<int> v, int elem) {
     int it = 0;
@@ -32,9 +14,9 @@ vector<int> removeElement(vector<int> v, int elem) {
 
 Piece::Piece() {
     pieceBag = {0, 1, 2, 3, 4, 5, 6};
-    int s1 = pieceBag[d(rd)%pieceBag.size()];
+    int s1 = pieceBag[d1(rd1)%pieceBag.size()];
     pieceBag = removeElement(pieceBag, s1);
-    int s2 = pieceBag[d(rd)%pieceBag.size()];
+    int s2 = pieceBag[d1(rd1)%pieceBag.size()];
     pieceBag = removeElement(pieceBag, s2);
     n = s1;
     next = s2;
@@ -64,7 +46,7 @@ void Piece::newShape() {
 }
 
 void Piece::newNext() {
-    int s = pieceBag[d(rd)%pieceBag.size()];
+    int s = pieceBag[d1(rd1)%pieceBag.size()];
     pieceBag = removeElement(pieceBag, s);
     next = s;
     if (pieceBag.size() == 0) pieceBag = {0, 1, 2, 3, 4, 5, 6};

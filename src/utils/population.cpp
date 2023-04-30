@@ -1,18 +1,15 @@
-#include "brain.cpp"
 #include <iostream>
+#include <algorithm>
+#include "population.hpp"
 
-class Population {
-    public:
-        vector<Brain> agents;
-        int numAgents;
-        
-        Population();
-        vector<float> normalize(vector<float> params);
-        void generateNewPopulation();
-};
+#define NUM_AGENTS 300
+
+random_device rd3;
+uniform_int_distribution<int> d3(0,NUM_AGENTS);
+
 
 Population::Population() {
-    numAgents = 150;
+    numAgents = NUM_AGENTS;
     for (int a=0; a<numAgents; a++) {
 		NeuralNetwork params;
         agents.push_back(Brain(params));
@@ -28,7 +25,7 @@ void Population::generateNewPopulation() {
         vector<Brain> randomSelection;
 
         for (int j=0; j<nSelection; j++) {
-            randomSelection.push_back(agents[d(rd)%numAgents]);
+            randomSelection.push_back(agents[d3(rd3)%numAgents]);
         }
         
 

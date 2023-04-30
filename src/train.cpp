@@ -1,4 +1,4 @@
-#include "utils/geneticAlgorithm.cpp"
+#include "utils/geneticAlgorithm.hpp"
 
 int main() {
     GeneticAlgorithm GA;

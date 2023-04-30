@@ -1,22 +1,11 @@
-#include "grid.cpp"
+#include <cmath>
+#include <random>
+#include <ostream>
+#include <fstream>
+#include "neuralNetwork.hpp"
 
-class NeuralNetwork {
-	public:
-		// 4x3x1 neural network
-		vector<vector<float>> layer1; 
-		vector<float> biases1;
-		vector<float> layer2;
-		float bias2;
-		
-		NeuralNetwork();
-		NeuralNetwork(const char* fileName);
-		float getRandomParam();
-		float reLU(float node);
-		float forward(vector<int> inputs);
-		void saveParams(string fileName, int score);
-		void loadParams(const char* fileName);
-}; 
-
+random_device rd2;
+uniform_int_distribution<int> d2(0,10000000);
 
 NeuralNetwork::NeuralNetwork() {
 	int i, j;
@@ -42,7 +31,7 @@ NeuralNetwork::NeuralNetwork(const char* fileName) {
 
 float NeuralNetwork::getRandomParam() {
 	// returns random float between -1.0000000 and 1.0000000
-	return  (float)d(rd)/pow(10,7)*(2*(d(rd)%2)-1);
+	return  (float)d2(rd2)/pow(10,7)*(2*(d2(rd2)%2)-1);
 }
 
 float NeuralNetwork::reLU(float node) {

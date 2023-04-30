@@ -1,9 +1,19 @@
-train.o:
-	g++ src/train.cpp -o bin/train.o
 
-terminal.o:
-	g++ src/terminal.cpp -o bin/terminal.o
+TRAIN_FILES = src/utils/piece.cpp src/utils/grid.cpp src/utils/neuralNetwork.cpp src/utils/brain.cpp src/utils/population.cpp src/utils/geneticAlgorithm.cpp
+RUN_FILES = src/utils/piece.cpp src/utils/grid.cpp src/utils/neuralNetwork.cpp src/utils/brain.cpp
+RAYLIB_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wno-narrowing
 
-window.o:
-	g++ src/window.cpp -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wno-narrowing -o bin/window.o
+train: 
+	g++ src/train.cpp $(TRAIN_FILES) -o train.o
 
+terminal: 
+	g++ src/terminal.cpp $(RUN_FILES) -o terminal.o
+
+window: 
+	g++ src/window.cpp $(RAYLIB_FLAGS) $(RUN_FILES) -o window.o
+
+all: 
+	g++ src/train.cpp $(TRAIN_FILES) -o train.o
+	g++ src/terminal.cpp $(RUN_FILES) -o terminal.o
+	g++ src/window.cpp $(RAYLIB_FLAGS) $(RUN_FILES) -o window.o
+	
