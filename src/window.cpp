@@ -11,18 +11,12 @@ int main() {
     char *line;
     size_t len = 0;
     int l = 1;
-    FILE *file1 = fopen("../data/bestParams.txt", "r");
-    vector<float> bestParams;
-    FILE *file2 = fopen("../data/record.txt", "r");
+    NeuralNetwork bestParams("../data/bestParams.txt");
+    FILE *file = fopen("../data/record.txt", "r");
     int record;
 
-    while (getline(&line, &len, file1) != -1) {
-        if (l++ < 5) bestParams.push_back((float)strtod(line, NULL));
-    }
-    fclose(file1);
-
-    if (getline(&line, &len, file2) != -1) record = atoi(line);
-    fclose(file2);
+    if (getline(&line, &len, file) != -1) record = atoi(line);
+    fclose(file);
     
     Grid grid;
     Brain brain(bestParams);

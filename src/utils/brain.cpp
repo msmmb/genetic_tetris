@@ -2,16 +2,17 @@
 #include <cmath>
 #include <cstdlib>
 #include <bits/stdc++.h>
-#include "grid.cpp"
+#include "neuralNetwork.cpp"
 
 class Brain {
     public:
-        vector<float> params;
+        NeuralNetwork params;
         int score;
 
-        Brain(vector<float> params);
+        Brain();
+        Brain(NeuralNetwork params);
         string getBestMove(Grid grid);
-        void mutate();
+		Brain crossover(Brain partner);
         vector<int> getColumnHeights(vector<vector<int>> grid);
         int getCompletedLines(vector<vector<int>> grid);
         int getAggregateHeight(vector<vector<int>> grid);
@@ -19,7 +20,11 @@ class Brain {
         int getHoles(vector<vector<int>> grid);
 };
 
-Brain::Brain(vector<float> params) {
+Brain::Brain() {
+    score = 0;
+}
+
+Brain::Brain(NeuralNetwork params) {
     this->params = params;
     score = 0;
 }
@@ -35,6 +40,7 @@ string Brain::getBestMove(Grid grid) {
         for(int m=0; m<10; m++) {
 
             grid = startingGrid;
+
             for (int i=0; i<r; i++) grid.rotatePiece();
 
             if (possibleMoves[m][0] == 'l') {
@@ -48,8 +54,7 @@ string Brain::getBestMove(Grid grid) {
                                       getHoles(grid.matrix), getBumpiness(grid.matrix)};
 
 
-            float score = 0.0;
-            for (int i=0; i<4; i++) score += params[i]*heuristics[i]; 
+            float score = params.forward(heuristics);
 
             grid.piece.newShape();
             
@@ -71,10 +76,10 @@ string Brain::getBestMove(Grid grid) {
                     vector<int> heuristics = {getAggregateHeight(grid.matrix), getCompletedLines(grid.matrix),
                                               getHoles(grid.matrix), getBumpiness(grid.matrix)};
 
-                    for (int i=0; i<4; i++) score += params[i]*heuristics[i]; 
+					float score2 = score + params.forward(heuristics);
                     
-                    if (score >= maxScore) {
-                        maxScore = score;
+                    if (score2 >= maxScore) {
+                        maxScore = score2;
                         bestMove = possibleMoves[m];
                         bestRotation = to_string(r);
                     }
@@ -85,8 +90,27 @@ string Brain::getBestMove(Grid grid) {
     return bestMove + bestRotation;
 }
 
-void Brain::mutate() {
-    params[d(rd)%4] += ((d(rd)%2)*2-1)*0.2;
+Brain Brain::crossover(Brain partner) {
+	Brain offspring;
+    NeuralNetwork p1 = this->params;
+    NeuralNetwork p2 = partner.params;
+    float f1 = this->score;
+    float f2 = partner.score;
+    int i, j;
+
+	for(i=0; i<3; i++) {
+		for (j=0; j<4; j++) {
+			offspring.params.layer1[i][j] = (f1*p1.layer1[i][j]+f2*p2.layer1[i][j])/(f1+f2+pow(10, -10));
+		}
+		offspring.params.biases1[i] = (f1*p1.biases1[i]+f2*p2.biases1[i])/(f1+f2+pow(10, -10));
+	}
+
+	for (i=0; i<3; i++) {
+		offspring.params.layer2[i] = (f1*p1.layer2[i]+f2*p2.layer2[i])/(f1+f2+pow(10, -10));
+	}
+	offspring.params.bias2 = (f1*p1.bias2+f2*p2.bias2)/(f1+f2+pow(10, -10));
+
+	return offspring;
 }
 
 vector<int> Brain::getColumnHeights(vector<vector<int>> grid) {
