@@ -1,6 +1,6 @@
 # Tetris genetic algorithm
 
-Tetris genetic algorithm written in C++ inspired by [this](https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/) article, with some changes.
+Tetris genetic algorithm written in C++ inspired by [this](https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/) article, with some changes. This AI is able to clear 21.000+ lines.
 
 ## Train de AI
 
