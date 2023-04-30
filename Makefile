@@ -1,6 +1,6 @@
 
-TRAIN_FILES = src/utils/piece.cpp src/utils/grid.cpp src/utils/neuralNetwork.cpp src/utils/brain.cpp src/utils/population.cpp src/utils/geneticAlgorithm.cpp
 RUN_FILES = src/utils/piece.cpp src/utils/grid.cpp src/utils/neuralNetwork.cpp src/utils/brain.cpp
+TRAIN_FILES = $(RUN_FILES) src/utils/population.cpp src/utils/geneticAlgorithm.cpp
 RAYLIB_FLAGS = -lraylib -lGL -lm -lpthread -ldl -lrt -lX11 -Wno-narrowing
 
 train: 
